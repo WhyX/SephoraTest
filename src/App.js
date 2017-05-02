@@ -6,19 +6,6 @@ import Filter from './Filter';
 import Product from './Product';
 var axios = require('axios')
 
-class Products extends Component {
-  render () {
-    console.log(this.props.products);
-    return (
-      <div style={this.props.style}>
-      {this.props.products.map((product) =>
-        <Product key={product.id} style={{width: 250, textAlign: 'center', marginBottom: 10}} product={product}/>
-      )}
-      </div>
-    );
-  };
-}
-
 class App extends Component {
   constructor (props) {
     super(props);
@@ -28,15 +15,29 @@ class App extends Component {
       sort: 'none',
       category: 'all',
       price: 0,
-      products: []
+      products: null,
+      productType: 'multiple'
     };
   }
 
   componentDidMount () {
-    this.getProducts();
+    this.getMultipleProducts();
   }
 
-  getProducts () {
+  getSingleProduct (id) {
+    var self = this;
+    var url = 'https://sephora-api-frontend-test.herokuapp.com/products/' + id;
+    axios.get(url)
+      .then(function (response) {
+        console.log('data', response);
+        self.setState({products: response.data.data, productType: 'single'});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  getMultipleProducts () {
     var self = this;
     var pageNumber = '?page[number]=' + this.state.page;
     var pageSize = '&page[size]=' + this.state.size;
@@ -44,7 +45,7 @@ class App extends Component {
     axios.get(url)
       .then(function (response) {
         console.log('data', response);
-        self.setState({products: response.data.data});
+        self.setState({products: response.data.data, productType: 'multiple'});
       })
       .catch(function (error) {
         console.log(error);
@@ -92,6 +93,20 @@ class App extends Component {
       type: 'price',
       placeholder: 'Price'
     };
+
+    var productDisplay;
+
+    if (this.state.products !== null) {
+      if (this.state.productType === 'multiple') {
+          productDisplay = this.state.products.map((product) =>
+          <Product key={product.id} style={{width: 250, textAlign: 'center', marginBottom: 15}} product={product} type={this.state.productType} callBack={()=>this.getSingleProduct(product.id)}/>
+        )
+      } else {
+        console.log('single product:', this.state.products);
+        productDisplay = <Product style={{width: 250, textAlign: 'center', marginBottom: 15}} product={this.state.products} type={this.state.productType} callBack={()=>this.getMultipleProducts()}/>
+      }
+    }
+
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <div style={{minHeight: 80, display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
@@ -103,7 +118,9 @@ class App extends Component {
             <Filter params={categoryParams}/>
             <Filter params={priceParams}/>
           </div>
-          <Products style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}} products={this.state.products}/>
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+            {productDisplay}
+          </div>
         </div>
       </div>
     );
