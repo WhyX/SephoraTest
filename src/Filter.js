@@ -28,14 +28,12 @@ class Filter extends Component {
           {this.state.options.map((option) =>
             <p key={option.value} style={{paddingLeft: 10}}>
               {this.props.params.type === 'price' ? <input type={this.props.params.input} 
-    id={option.value} checked={this.state.value == option.value} value={option.value} onChange={this.handleChange}/> : <input type={this.props.params.input} 
+    id={option.value} checked={parseInt(this.state.value, 10) === parseInt(option.value, 10)} value={option.value} onChange={this.handleChange}/> : <input type={this.props.params.input} 
     id={option.value} value={option.value} onChange={this.handleChange}/>}
               <label htmlFor={option.value}>{option.placeholder}</label>
             </p>
           )}
         </form> : '';
-
-        console.log(form);
 
     return (
       <div>
