@@ -13,7 +13,8 @@ class Pagination extends Component {
 
   getParameterByName(name, url) {
     url = decodeURIComponent(url);
-    name = name.replace(/[\[\]]/g, "\\$&");
+    const pattern = new RegExp('[\\[\\]]', 'g')
+    name = name.replace(pattern, "\\$&");
 
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
     if (!results) {
