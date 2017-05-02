@@ -8,7 +8,6 @@ class Pagination extends Component {
   }
 
   handleChange (event) {
-    console.log('value', event.target.value);
     this.props.callBack(this.props.params.type, event.target.value);
   }
 
@@ -37,10 +36,10 @@ class Pagination extends Component {
       next = this.props.params.links.next !== undefined ? this.getParameterByName('page[number]', this.props.params.links.next) : null;
       prev = this.props.params.links.prev !== undefined ? this.getParameterByName('page[number]', this.props.params.links.prev) : null;
 
-      prev = prev === null ? '' : <button value={prev} className="pageButton" onClick={this.handleChange}>◀</button>;
-      next = next === null ? '' : <button value={next} className="pageButton" onClick={this.handleChange}>▶</button>;
-      first = first === null ? '' : <button value={first} className="pageButton" onClick={this.handleChange}>First</button>;
-      last = last === null ? '' : <button value={last} className="pageButton" onClick={this.handleChange}>Last</button>;
+      prev = prev === null ? '' : <button value={prev} id="prev_btn" className="pageButton" onClick={this.handleChange}>◀</button>;
+      next = next === null ? '' : <button value={next} id="next_btn" className="pageButton" onClick={this.handleChange}>▶</button>;
+      first = first === null ? '' : <button value={first} id="first_btn" className="pageButton" onClick={this.handleChange}>First</button>;
+      last = last === null ? '' : <button value={last} id="last_btn" className="pageButton" onClick={this.handleChange}>Last</button>;
     }
 
     return (
