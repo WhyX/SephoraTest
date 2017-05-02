@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       page: 1,
-      size: 30,
+      view: 30,
       sort: 'none',
       category: 'all',
       price: 0,
@@ -24,12 +24,20 @@ class App extends Component {
     this.getMultipleProducts();
   }
 
+  filter (type, value) {
+    var updatedState = {};
+    var self = this;
+    updatedState[type] = value;
+    this.setState(updatedState, function() {
+      self.getMultipleProducts();
+    });
+  }
+
   getSingleProduct (id) {
     var self = this;
     var url = 'https://sephora-api-frontend-test.herokuapp.com/products/' + id;
     axios.get(url)
       .then(function (response) {
-        console.log('data', response);
         self.setState({products: response.data.data, productType: 'single'});
       })
       .catch(function (error) {
@@ -40,8 +48,13 @@ class App extends Component {
   getMultipleProducts () {
     var self = this;
     var pageNumber = '?page[number]=' + this.state.page;
-    var pageSize = '&page[size]=' + this.state.size;
-    var url = 'https://sephora-api-frontend-test.herokuapp.com/products' + pageNumber + pageSize;
+    var pageSize = '&page[size]=' + this.state.view;
+    var sort = '';
+    if (this.state.sort !== 'none') {
+      sort = this.state.sort === 'lowToHigh' ? '&sort=price' : '&sort=-price';
+    }
+    var url = 'https://sephora-api-frontend-test.herokuapp.com/products' + pageNumber + pageSize + sort;
+    console.log(url);
     axios.get(url)
       .then(function (response) {
         console.log('data', response);
@@ -60,7 +73,8 @@ class App extends Component {
         {value: 120, placeholder: 120},
         {value: 240, placeholder: 240}
       ],
-      type: 'View'
+      type: 'view',
+      placeholder: 'View'
     };
     const sortParams = {
       options: [
@@ -68,7 +82,8 @@ class App extends Component {
         {value: 'lowToHigh', placeholder: 'Price: Low to High'},
         {value: 'highToLow', placeholder: 'Price: High to Low'}
       ],
-      type: 'Sort'
+      type: 'sort',
+      placeholder: 'Price'
     };
     const categoryParams = {
       options: [
@@ -110,11 +125,11 @@ class App extends Component {
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <div style={{minHeight: 80, display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
-          <Selector style={{padding: 20}} params={viewParams}/>      
+          <Selector style={{padding: 20}} params={viewParams} callBack={(type, value)=>this.filter(type, value)}/>      
         </div>
         <div style={{display: 'flex'}}>
           <div style={{maxWidth: 150, padding: 15}}>
-            <Selector params={sortParams}/>      
+            <Selector params={sortParams} callBack={(type, value)=>this.filter(type, value)}/>      
             <Filter params={categoryParams}/>
             <Filter params={priceParams}/>
           </div>
