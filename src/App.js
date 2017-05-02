@@ -1,68 +1,9 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
-
-class Selector extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      options: props.params.options
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange (event) {
-    console.log(event.target.value);
-  }
-
-  render () {
-    return (
-      <div style={this.props.style}>
-        {this.props.params.type}: 
-        <select>
-          {this.state.options.map((option) =>
-            <option key={option.value} value={option.value}>{option.placeholder}</option>
-          )}
-        </select>
-      </div>      
-    );
-  }
-}
-
-class Filter extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      options: props.params.options,
-      selected: false
-    };
-
-    this.toggleVisibility = this.toggleVisibility.bind(this);
-  }
-
-  toggleVisibility (event) {
-    this.setState({selected: !this.state.selected});
-  }
-
-  render () {
-    return (
-      <div>
-        <p>
-          <input type="radio" id={this.props.params.type} checked={this.state.selected} onChange={this.toggleVisibility}/>
-          <label htmlFor={this.props.params.type}>{this.props.params.placeholder}</label>
-        </p>
-        <form style={this.props.style}>
-          {this.state.options.map((option) =>
-            <p key={option.value}>
-              <input type={this.props.params.input} id={option.value} value={option.value}/>
-              <label htmlFor={option.value}>{option.placeholder}</label>
-            </p>
-          )}
-        </form>
-      </div>
-    );
-  }
-}
+import Selector from './Selector';
+import Filter from './Filter';
+import Product from './Product';
 
 class Paginate extends Component {
 
@@ -92,24 +33,6 @@ class Products extends Component {
       </div>
     );
   };
-}
-
-class Product extends Component {
-  render () {
-    return (
-      <div style={this.props.style}>
-        <div>
-          <img src="https://placehold.it/230x150" alt="product"/>
-        </div>
-        <div>
-          <p style={{fontWeight: 'bold'}}>{this.props.product.name}</p>
-          <p style={{textTransform: 'capitalize'}}>{this.props.product.category}</p>
-          <p style={{fontWeight: 'bold'}}>${this.props.product.price}</p>
-          <p style={{fontWeight: 'bold'}}>Sale Price: ${this.props.product.salePrice}</p>
-        </div>
-      </div>
-    );
-  }
 }
 
 class App extends Component {
