@@ -13,7 +13,7 @@ class App extends Component {
       page: 1,
       view: 30,
       sort: 'none',
-      category: 'all',
+      category: [],
       price: 0,
       products: null,
       productType: 'multiple'
@@ -54,7 +54,12 @@ class App extends Component {
       sort = this.state.sort === 'lowToHigh' ? '&sort=price' : '&sort=-price';
     }
     var price = this.state.price > 0 ? '&filter[price_lt]=' + this.state.price : '';
-    var url = 'https://sephora-api-frontend-test.herokuapp.com/products' + pageNumber + pageSize + sort + price;
+    var category = '';
+    if (this.state.category.length > 0) {
+      var categories = this.state.category.join();
+      category = this.state.category.length === 1 ? '&filter[category_eq]=' + categories : '&filter[category_in]=' + categories; 
+    }
+    var url = 'https://sephora-api-frontend-test.herokuapp.com/products' + pageNumber + pageSize + sort + price + category;
     console.log(url);
     axios.get(url)
       .then(function (response) {
@@ -131,7 +136,7 @@ class App extends Component {
         <div style={{display: 'flex'}}>
           <div style={{maxWidth: 150, padding: 15}}>
             <Selector params={sortParams} callBack={(type, value)=>this.filter(type, value)}/>      
-            <Filter params={categoryParams}/>
+            <Filter params={categoryParams} callBack={(type, value)=>this.filter(type, value)}/>
             <Filter params={priceParams} callBack={(type, value)=>this.filter(type, value)}/>
           </div>
           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
