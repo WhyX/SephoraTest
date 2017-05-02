@@ -31,7 +31,7 @@ class App extends Component {
     var updatedState = {};
     var self = this;
     updatedState[type] = value;
-    if (type === 'view') {
+    if (type !== 'sort' && type !== 'page') {
       updatedState['page'] = 1;
     }
     this.setState(updatedState, function() {
