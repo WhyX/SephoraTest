@@ -16,7 +16,7 @@ class Product extends Component {
       if (this.props.product.attributes.under_sale) {
         availabilityDisplay = this.props.product.attributes.sold_out ? <p style={{color: 'red'}}>Out of Stock</p> : <p style={{color: 'green'}}>Available</p>;
       } else {
-        availabilityDisplay = <p style={{color: 'darkgrey'}}>Not for Sale</p>;
+        availabilityDisplay = <p style={{color: 'darkgrey'}}>Not for Sell</p>;
       }
     }
 
