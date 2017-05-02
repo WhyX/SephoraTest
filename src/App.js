@@ -4,31 +4,15 @@ import './App.css';
 import Selector from './Selector';
 import Filter from './Filter';
 import Product from './Product';
-
-class Paginate extends Component {
-
-}
+var axios = require('axios')
 
 class Products extends Component {
   render () {
-    const datas = [
-    {id: 0, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 1, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 2, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 3, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 4, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 5, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 6, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 7, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 8, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 9, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 10, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    {id: 11, name: 'testA', category: 'catA', price: 3.77, salePrice: 13.77},
-    ];
+    console.log(this.props.products);
     return (
       <div style={this.props.style}>
-      {datas.map((data) =>
-        <Product key={data.id} style={{width: 250, textAlign: 'center', marginBottom: 10}} product={data}/>
+      {this.props.products.map((product) =>
+        <Product key={product.id} style={{width: 250, textAlign: 'center', marginBottom: 10}} product={product}/>
       )}
       </div>
     );
@@ -39,11 +23,32 @@ class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      view: 30,
+      page: 1,
+      size: 30,
       sort: 'none',
       category: 'all',
-      price: 0
+      price: 0,
+      products: []
     };
+  }
+
+  componentDidMount () {
+    this.getProducts();
+  }
+
+  getProducts () {
+    var self = this;
+    var pageNumber = '?page[number]=' + this.state.page;
+    var pageSize = '&page[size]=' + this.state.size;
+    var url = 'https://sephora-api-frontend-test.herokuapp.com/products' + pageNumber + pageSize;
+    axios.get(url)
+      .then(function (response) {
+        console.log('data', response);
+        self.setState({products: response.data.data});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   render () {
@@ -98,7 +103,7 @@ class App extends Component {
             <Filter params={categoryParams}/>
             <Filter params={priceParams}/>
           </div>
-          <Products style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}/>
+          <Products style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}} products={this.state.products}/>
         </div>
       </div>
     );

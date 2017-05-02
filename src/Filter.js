@@ -19,8 +19,6 @@ class Filter extends Component {
 
   handleChange (event) {
     if (this.props.params.type === 'price') {
-      console.log('state.value', this.state.value);
-      console.log('value', event.target.value);
       this.setState({value: event.target.value});
     }
   }
