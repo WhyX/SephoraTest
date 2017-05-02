@@ -47,7 +47,7 @@ class App extends Component {
         self.setState({products: response.data.data, productType: 'single'});
       })
       .catch(function (error) {
-        console.log(error);
+        alert(error);
       });
   }
 
@@ -66,14 +66,12 @@ class App extends Component {
       category = this.state.category.length === 1 ? '&filter[category_eq]=' + categories : '&filter[category_in]=' + categories; 
     }
     var url = 'https://sephora-api-frontend-test.herokuapp.com/products' + pageNumber + pageSize + sort + price + category;
-    console.log(url);
     axios.get(url)
       .then(function (response) {
-        console.log('data', response);
         self.setState({products: response.data.data, productType: 'multiple', links: response.data.links});
       })
       .catch(function (error) {
-        console.log(error);
+        alert(error);
       });
   }
 
