@@ -8,7 +8,8 @@ class Pagination extends Component {
   }
 
   handleChange (event) {
-    this.props.callBack(this.props.params.type, event.target.value);
+    const value = parseInt(event.target.value, 10);
+    this.props.callBack(this.props.params.type, value);
   }
 
   getParameterByName(name, url) {

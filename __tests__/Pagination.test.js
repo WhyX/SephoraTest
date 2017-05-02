@@ -28,7 +28,7 @@ describe('Pagination', function () {
     );
     wrapper.find('#next_btn').simulate('click');
 
-    expect(callBack).toBeCalledWith('page', '3');
+    expect(callBack).toBeCalledWith('page', 3);
   });
 
   it('is callback for selected prev', function() {
@@ -38,7 +38,7 @@ describe('Pagination', function () {
     );
     wrapper.find('#prev_btn').simulate('click');
 
-    expect(callBack).toBeCalledWith('page', '1');
+    expect(callBack).toBeCalledWith('page', 1);
   });
 
   it('is callback for selected first', function() {
@@ -48,7 +48,7 @@ describe('Pagination', function () {
     );
     wrapper.find('#first_btn').simulate('click');
 
-    expect(callBack).toBeCalledWith('page', '1');
+    expect(callBack).toBeCalledWith('page', 1);
   });
 
   it('is callback for selected last', function() {
@@ -58,6 +58,6 @@ describe('Pagination', function () {
     );
     wrapper.find('#last_btn').simulate('click');
 
-    expect(callBack).toBeCalledWith('page', '7');
+    expect(callBack).toBeCalledWith('page', 7);
   });
 });

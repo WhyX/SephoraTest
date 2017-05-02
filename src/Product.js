@@ -3,6 +3,7 @@ import './css/Product.css';
 
 class Product extends Component {
   render () {
+    const productId = 'product_' + this.props.product.id;
     const name = this.props.product.attributes.name;
     const category = this.props.product.attributes.category;
     const price = this.props.product.attributes.price / 100;
@@ -21,7 +22,7 @@ class Product extends Component {
     }
 
     return (
-      <div className="product">
+      <div className="product" id={productId}>
         <div>
           <button className="viewButton" onClick={this.props.callBack}>{buttonPlaceholder}</button>
           <img src="https://placehold.it/230x150" alt="product"/>
