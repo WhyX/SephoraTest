@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import './App.css';
 import Selector from './Selector';
 import Filter from './Filter';
+import Pagination from './Pagination';
 import Product from './Product';
+
 var axios = require('axios')
 
 class App extends Component {
@@ -16,7 +18,8 @@ class App extends Component {
       category: [],
       price: 0,
       products: null,
-      productType: 'multiple'
+      productType: 'multiple',
+      links: null
     };
   }
 
@@ -28,6 +31,9 @@ class App extends Component {
     var updatedState = {};
     var self = this;
     updatedState[type] = value;
+    if (type === 'view') {
+      updatedState['page'] = 1;
+    }
     this.setState(updatedState, function() {
       self.getMultipleProducts();
     });
@@ -64,7 +70,7 @@ class App extends Component {
     axios.get(url)
       .then(function (response) {
         console.log('data', response);
-        self.setState({products: response.data.data, productType: 'multiple'});
+        self.setState({products: response.data.data, productType: 'multiple', links: response.data.links});
       })
       .catch(function (error) {
         console.log(error);
@@ -72,6 +78,11 @@ class App extends Component {
   }
 
   render () {
+    const pageParams = {
+      type: 'page',
+      links: this.state.links
+    }
+
     const viewParams = {
       options: [
         {value: 30, placeholder: 30},
@@ -123,7 +134,6 @@ class App extends Component {
           <Product key={product.id} style={{width: 250, textAlign: 'center', marginBottom: 15}} product={product} type={this.state.productType} callBack={()=>this.getSingleProduct(product.id)}/>
         )
       } else {
-        console.log('single product:', this.state.products);
         productDisplay = <Product style={{width: 250, textAlign: 'center', marginBottom: 15}} product={this.state.products} type={this.state.productType} callBack={()=>this.getMultipleProducts()}/>
       }
     }
@@ -131,6 +141,7 @@ class App extends Component {
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <div style={{minHeight: 80, display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+          <Pagination style={{padding: 20}} params={pageParams} callBack={(type, value)=>this.filter(type, value)}/>      
           <Selector style={{padding: 20}} params={viewParams} callBack={(type, value)=>this.filter(type, value)}/>      
         </div>
         <div style={{display: 'flex'}}>

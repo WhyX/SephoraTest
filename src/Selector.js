@@ -13,7 +13,7 @@ class Selector extends Component {
   render () {
     return (
       <div style={this.props.style}>
-        {this.props.params.placeholder}: 
+        {this.props.params.placeholder}
         <select onChange={this.handleChange}>
           {this.props.params.options.map((option) =>
             <option key={option.value} value={option.value}>{option.placeholder}</option>
