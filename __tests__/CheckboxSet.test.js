@@ -20,19 +20,17 @@ describe('CheckboxSet', function () {
     expect(checkboxSet).toBeDefined();
   });
 
-  it('is checked for single category', function() {
+  it('is callback for single chosen category', function() {
     const callBack = jest.fn();
     const wrapper = mount(
       <CheckboxSet params={categoryParams} callBack={callBack}/>
     );
     const brushes = wrapper.find('#brushes');
     brushes.simulate('change', {target: {value: 'brushes'}});
-    const selectedValues = Array.from(wrapper.instance().selectedValues);
-    expect(selectedValues[0]).toBe('brushes');
-    expect(selectedValues[1]).toBeUndefined();
+    expect(callBack).toBeCalledWith(['brushes']);
   });
 
-  it('is checked for multiple categories', function() {
+  it('is callback for multiple chosen categories', function() {
     const callBack = jest.fn();
     const wrapper = mount(
       <CheckboxSet params={categoryParams} callBack={callBack}/>
@@ -41,9 +39,6 @@ describe('CheckboxSet', function () {
     const tools = wrapper.find('#tools');
     brushes.simulate('change', {target: {value: 'brushes'}});
     tools.simulate('change', {target: {value: 'tools'}});
-    const selectedValues = Array.from(wrapper.instance().selectedValues);
-    expect(selectedValues[0]).toBe('brushes');
-    expect(selectedValues[1]).toBe('tools');
-    expect(selectedValues[2]).toBeUndefined();
+    expect(callBack).toBeCalledWith(['brushes', 'tools']);
   });
 });

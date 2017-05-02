@@ -23,21 +23,21 @@ describe('RadioSet', function () {
     expect(radioSet).toBeDefined();
   });
 
-  it('is checked for selected price', function() {
+  it('is callback for selected price', function() {
+    const callBack = jest.fn();
     const wrapper = mount(
-      <RadioSet params={priceParams} />
+      <RadioSet params={priceParams} callBack={callBack}/>
     );
-    wrapper.setState({value: 3000});
-    const price = wrapper.find('#3000');
-    expect(price.prop('checked')).toBe(true);
+    wrapper.find('#3000').simulate('change', {target: {value: '3000'}});
+    expect(callBack).toBeCalledWith('3000');
   });
 
-  it('is not checked for non selected price', function() {
+  it('is not callback for non selected price', function() {
+    const callBack = jest.fn();
     const wrapper = mount(
-      <RadioSet params={priceParams} />
+      <RadioSet params={priceParams} callBack={callBack}/>
     );
-    wrapper.setState({value: 3000});
-    const price = wrapper.find('#1500');
-    expect(price.prop('checked')).toBe(false);
+    wrapper.find('#3000').simulate('change', {target: {value: '3000'}});
+    expect(callBack).not.toBeCalledWith('1500');
   });
 });
