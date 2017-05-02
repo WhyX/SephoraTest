@@ -24,8 +24,8 @@ class Filter extends Component {
   render () {
     var form = '';
     if (this.state.selected) {
-      form = this.props.params.type === 'price' ? <RadioSet params={this.props.params} callBack={(value)=>this.handleChange(value)}/> : 
-          <CheckboxSet params={this.props.params} callBack={(value)=>this.handleChange(value)}/>;
+      form = this.props.params.type === 'price' ? <RadioSet style={{paddingLeft: 10}} params={this.props.params} callBack={(value)=>this.handleChange(value)}/> : 
+          <CheckboxSet style={{paddingLeft: 10}} params={this.props.params} callBack={(value)=>this.handleChange(value)}/>;
     }
 
     return (

@@ -1,0 +1,17 @@
+.product {
+  width: 250px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.product p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.viewButton {
+  position: absolute;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}

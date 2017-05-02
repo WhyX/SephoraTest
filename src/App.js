@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
-import './App.css';
+import './css/App.css';
 import Selector from './Selector';
 import Filter from './Filter';
 import Pagination from './Pagination';
@@ -8,6 +8,9 @@ import Product from './Product';
 
 var axios = require('axios')
 
+const styles = {
+
+}
 class App extends Component {
   constructor (props) {
     super(props);
@@ -131,26 +134,26 @@ class App extends Component {
     if (this.state.products !== null) {
       if (this.state.productType === 'multiple') {
           productDisplay = this.state.products.map((product) =>
-          <Product key={product.id} style={{width: 250, textAlign: 'center', marginBottom: 15}} product={product} type={this.state.productType} callBack={()=>this.getSingleProduct(product.id)}/>
+          <Product key={product.id} product={product} type={this.state.productType} callBack={()=>this.getSingleProduct(product.id)}/>
         )
       } else {
-        productDisplay = <Product style={{width: 250, textAlign: 'center', marginBottom: 15}} product={this.state.products} type={this.state.productType} callBack={()=>this.getMultipleProducts()}/>
+        productDisplay = <Product product={this.state.products} type={this.state.productType} callBack={()=>this.getMultipleProducts()}/>
       }
     }
 
     return (
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        <div style={{minHeight: 80, display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+      <div className="mainContainer">
+        <div className="topContainer">
           <Pagination style={{padding: 20}} params={pageParams} callBack={(type, value)=>this.filter(type, value)}/>      
           <Selector style={{padding: 20}} params={viewParams} callBack={(type, value)=>this.filter(type, value)}/>      
         </div>
-        <div style={{display: 'flex'}}>
-          <div style={{maxWidth: 150, padding: 15}}>
+        <div className="bottomContainer">
+          <div className="sideContainer">
             <Selector params={sortParams} callBack={(type, value)=>this.filter(type, value)}/>      
             <Filter params={categoryParams} callBack={(type, value)=>this.filter(type, value)}/>
             <Filter params={priceParams} callBack={(type, value)=>this.filter(type, value)}/>
           </div>
-          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+          <div className="contentContainer">
             {productDisplay}
           </div>
         </div>

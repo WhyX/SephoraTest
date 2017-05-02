@@ -1,0 +1,26 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.topContainer {
+  min-height: 80px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bottomContainer {
+  display: flex;
+}
+
+.sideContainer {
+  max-width: 150px;
+  padding: 15px;
+}
+
+.contentContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

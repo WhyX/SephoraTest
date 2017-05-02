@@ -27,7 +27,7 @@ class CheckboxSet extends Component {
     return (
       <form>
         {this.props.params.options.map((option) =>
-          <p key={option.value} style={{paddingLeft: 10}}>
+          <p key={option.value} style={this.props.style}>
             <input type="checkbox" id={option.value} value={option.value} onChange={this.handleChange}/>
             <label htmlFor={option.value}>{option.placeholder}</label>
           </p>

@@ -19,7 +19,7 @@ class RadioSet extends Component {
     return (
       <form>
         {this.props.params.options.map((option) =>
-          <p key={option.value} style={{paddingLeft: 10}}>
+          <p key={option.value} style={this.props.style}>
             <input type="radio" id={option.value} checked={parseInt(this.state.value, 10) === parseInt(option.value, 10)} 
             value={option.value} onChange={this.handleChange}/> 
             <label htmlFor={option.value}>{option.placeholder}</label>

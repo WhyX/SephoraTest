@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './css/Pagination.css'
 
 class Pagination extends Component {
   constructor (props) {
@@ -36,10 +37,10 @@ class Pagination extends Component {
       next = this.props.params.links.next !== undefined ? this.getParameterByName('page[number]', this.props.params.links.next) : null;
       prev = this.props.params.links.prev !== undefined ? this.getParameterByName('page[number]', this.props.params.links.prev) : null;
 
-      prev = prev === null ? '' : <button value={prev} style={{fontSize: 15, cursor: 'pointer', marginLeft: 5, marginRight: 5, background: 'white', border: 'none'}} onClick={this.handleChange}>◀</button>;
-      next = next === null ? '' : <button value={next} style={{fontSize: 15, cursor: 'pointer', marginLeft: 5, marginRight: 5, background: 'white', border: 'none'}} onClick={this.handleChange}>▶</button>;
-      first = first === null ? '' : <button value={first} style={{fontSize: 15, cursor: 'pointer', marginLeft: 5, marginRight: 5, background: 'white', border: 'none'}} onClick={this.handleChange}>First</button>;
-      last = last === null ? '' : <button value={last} style={{fontSize: 15, cursor: 'pointer', marginLeft: 5, marginRight: 5, background: 'white', border: 'none'}} onClick={this.handleChange}>Last</button>;
+      prev = prev === null ? '' : <button value={prev} className="pageButton" onClick={this.handleChange}>◀</button>;
+      next = next === null ? '' : <button value={next} className="pageButton" onClick={this.handleChange}>▶</button>;
+      first = first === null ? '' : <button value={first} className="pageButton" onClick={this.handleChange}>First</button>;
+      last = last === null ? '' : <button value={last} className="pageButton" onClick={this.handleChange}>Last</button>;
     }
 
     return (
