@@ -20,6 +20,7 @@ class Filter extends Component {
   handleChange (event) {
     if (this.props.params.type === 'price') {
       this.setState({value: event.target.value});
+      this.props.callBack('price', event.target.value);
     }
   }
 

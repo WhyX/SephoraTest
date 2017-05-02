@@ -53,7 +53,8 @@ class App extends Component {
     if (this.state.sort !== 'none') {
       sort = this.state.sort === 'lowToHigh' ? '&sort=price' : '&sort=-price';
     }
-    var url = 'https://sephora-api-frontend-test.herokuapp.com/products' + pageNumber + pageSize + sort;
+    var price = this.state.price > 0 ? '&filter[price_lt]=' + this.state.price : '';
+    var url = 'https://sephora-api-frontend-test.herokuapp.com/products' + pageNumber + pageSize + sort + price;
     console.log(url);
     axios.get(url)
       .then(function (response) {
@@ -131,7 +132,7 @@ class App extends Component {
           <div style={{maxWidth: 150, padding: 15}}>
             <Selector params={sortParams} callBack={(type, value)=>this.filter(type, value)}/>      
             <Filter params={categoryParams}/>
-            <Filter params={priceParams}/>
+            <Filter params={priceParams} callBack={(type, value)=>this.filter(type, value)}/>
           </div>
           <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
             {productDisplay}
